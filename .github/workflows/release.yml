@@ -61,9 +61,22 @@ jobs:
             org.opencontainers.image.url=${{ github.event.repository.html_url }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.version=${{ env.VERSION }}
+
+      - name: sign container image
+        run: |
+            echo $COSIGN_KEY >> cosign.key
+            cosign sign --key cosign.key ghcr.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            cosign sign --key cosign.key docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+        shell: bash
+        env:
+          COSIGN_KEY: ${{secrets.COSIGN_KEY}}
+          COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
+
       - name: Check images
         run: |
           docker buildx imagetools inspect docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
           docker buildx imagetools inspect ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
           docker pull docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
           docker pull ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
+          cosign verify --key cosign.pub docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
+          cosign verify --key cosign.pub ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }} 

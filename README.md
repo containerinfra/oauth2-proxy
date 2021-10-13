@@ -17,6 +17,22 @@ Docker image build for [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-prox
 - docker pull docker.io/containerinfra/oauth2-proxy:7.1.3
 - docker pull ghcr.io/containerinfra/oauth2-proxy:7.1.3
 
+### Verify image with cosign
+
+All containerinfra/oauth2-proxy images are signed by [cosign](https://github.com/sigstore/cosign). You can verify these using `cosign verify`:
+
+```bash
+cat cosign.pub
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEYpxYmR6qpyer9WJHhSxd91XMx+A+
+eQm/6XSWAMDGeH4hrFpvo8Sw0t+xf0PdRSUEXCyKFXve+Q2s8csVo4eAaA==
+-----END PUBLIC KEY-----
+
+
+cosign verify --key cosign.pub docker.io/containerinfra/oauth2-proxy:7.1.3
+cosign verify --key cosign.pub ghcr.io/containerinfra/oauth2-proxy:7.1.3
+```
+
 ### Configuration
 
 See the [oauth2-proxy documentation](https://oauth2-proxy.github.io/oauth2-proxy/docs/).
