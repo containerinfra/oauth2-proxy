@@ -64,7 +64,7 @@ jobs:
 
       - name: sign container image
         run: |
-            echo $COSIGN_KEY >> cosign.key
+            echo "$COSIGN_KEY" >> cosign.key
             cosign sign --key cosign.key ghcr.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
             cosign sign --key cosign.key docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
         shell: bash
