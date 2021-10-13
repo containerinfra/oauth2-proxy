@@ -54,7 +54,7 @@ jobs:
             docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
           build-args: |
             OAUTH2_PROXY_VERSION=v${{ env.VERSION }}
-            OAUTH2_PROXY_SHA256={{ env.SHA256 }}
+            OAUTH2_PROXY_SHA256=${{ env.SHA256 }}
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.description=${{ github.event.repository.description }}
