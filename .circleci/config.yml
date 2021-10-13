@@ -1,0 +1,67 @@
+version: 2
+jobs:
+  build-v7.1.3:
+    docker:
+      - image: docker:stable
+        environment:
+          DOCKER_DRIVER: overlay2
+          MAJOR_VERSION: '7'
+          MINOR_VERSION: '7.1'
+          FULL_VERSION: '7.1.3'
+          SHA256: a491ca18059848c356935fe2ca9e665faafe4bba3ee1ecbac5a5f5f193195a82
+          CI_REGISTRY_IMAGE: 'ghcr.io/containerinfra/oauth2-proxy'
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - run: |
+          docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+          docker pull $CI_REGISTRY_IMAGE:$FULL_VERSION || true
+          docker run -v $(pwd):/build gcr.io/projectsigstore/cosign:v1.2.1@sha256:68801416e6ae0a48820baa3f071146d18846d8cd26ca8ec3a1e87fca8a735498 -- dockerfile verify -base-image-only -key /build/build/cosign-allowed-dependencies.pub /build/Dockerfile
+
+          docker build --cache-from $CI_REGISTRY_IMAGE:$FULL_VERSION --build-arg KEYCLOAK_GATEKEEPER_VERSION=${FULL_VERSION} --build-arg=KEYCLOAK_GATEKEEPER_SHA256=$SHA256 -t $CI_REGISTRY_IMAGE:$FULL_VERSION --label org.opencontainers.image.revision=$CIRCLE_SHA1 .
+          docker tag $CI_REGISTRY_IMAGE:$FULL_VERSION $CI_REGISTRY_IMAGE:$MINOR_VERSION
+          docker tag $CI_REGISTRY_IMAGE:$FULL_VERSION $CI_REGISTRY_IMAGE:$MAJOR_VERSION
+          docker tag $CI_REGISTRY_IMAGE:$FULL_VERSION $CI_REGISTRY_IMAGE:latest
+          docker push $CI_REGISTRY_IMAGE:$FULL_VERSION
+          docker push $CI_REGISTRY_IMAGE:$MINOR_VERSION
+          docker push $CI_REGISTRY_IMAGE:$MAJOR_VERSION
+          docker push $CI_REGISTRY_IMAGE:latest
+
+  build-pr:
+    docker:
+      - image: docker:stable
+        environment:
+          DOCKER_DRIVER: overlay2
+          CI_REGISTRY_IMAGE: 'ghcr.io/containerinfra/oauth2-proxy'
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - run: |
+          docker run -v $(pwd):/build gcr.io/projectsigstore/cosign:v1.2.1@sha256:68801416e6ae0a48820baa3f071146d18846d8cd26ca8ec3a1e87fca8a735498 -- dockerfile verify -base-image-only -key /build/build/cosign-allowed-dependencies.pub /build/Dockerfile
+          docker build -t $CI_REGISTRY_IMAGE:latest .
+
+workflows:
+  version: 2
+  build-job:
+    jobs:
+      - build-v7.1.3:
+          filters:
+            branches:
+              only: master
+      - build-pr:
+          filters:
+            branches:
+              ignore: master
+
+  monthly:
+    triggers:
+      - schedule:
+          cron: "0 0 14 * *"
+          filters:
+           branches:
+             only:
+               - master
+    jobs:
+      - build-v7.1.3
