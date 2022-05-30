@@ -14,8 +14,8 @@ Docker image build for [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-prox
 
 ### Images
 
-- docker pull docker.io/containerinfra/oauth2-proxy:7.2.1
-- docker pull ghcr.io/containerinfra/oauth2-proxy:7.2.1
+- docker pull docker.io/containerinfra/oauth2-proxy:7.3.0
+- docker pull ghcr.io/containerinfra/oauth2-proxy:7.3.0
 
 ### Verify image with cosign
 
@@ -29,8 +29,8 @@ eQm/6XSWAMDGeH4hrFpvo8Sw0t+xf0PdRSUEXCyKFXve+Q2s8csVo4eAaA==
 -----END PUBLIC KEY-----
 
 
-cosign verify --key cosign.pub docker.io/containerinfra/oauth2-proxy:7.2.1
-cosign verify --key cosign.pub ghcr.io/containerinfra/oauth2-proxy:7.2.1
+cosign verify --key cosign.pub docker.io/containerinfra/oauth2-proxy:7.3.0
+cosign verify --key cosign.pub ghcr.io/containerinfra/oauth2-proxy:7.3.0
 ```
 
 ### Configuration
