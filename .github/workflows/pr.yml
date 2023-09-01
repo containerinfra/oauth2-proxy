@@ -9,8 +9,8 @@ on:
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
-  VERSION: '7.3.0'
-  SHA256: 'e5b209a89766f3cceea058448fbc03ac45d12dd2ebb3df1115a7c9a7956ee0e5'
+  VERSION: '7.4.0'
+  SHA256: '318fc9dd2df3f29bc72c468e07492361332e264c528ab44ed024bcbbcbb55594'
 
 jobs:
   build-push:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Verify base image
         run: |          
-          cosign dockerfile verify -base-image-only -key ./build/cosign-allowed-dependencies.pub Dockerfile
+          cosign dockerfile verify --base-image-only --certificate-oidc-issuer https://accounts.google.com  --certificate-identity keyless@distroless.iam.gserviceaccount.com Dockerfile
       - name: Build container image
         uses: docker/build-push-action@v3
         with:
