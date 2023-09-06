@@ -63,8 +63,8 @@ jobs:
       - name: sign container image
         run: |
             echo "$COSIGN_KEY" >> cosign.key
-            cosign sign --key cosign.key ghcr.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-            cosign sign --key cosign.key docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            cosign sign --key cosign.key --tlog-upload=false ghcr.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            cosign sign --key cosign.key --tlog-upload=false docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
         shell: bash
         env:
           COSIGN_KEY: ${{secrets.COSIGN_KEY}}
