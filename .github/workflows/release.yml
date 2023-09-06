@@ -63,8 +63,8 @@ jobs:
       - name: sign container image
         run: |
             echo "$COSIGN_KEY" >> cosign.key
-            cosign sign --key cosign.key --tlog-upload=false ghcr.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-            cosign sign --key cosign.key --tlog-upload=false docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            cosign sign --key cosign.key -y ghcr.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            cosign sign --key cosign.key -y docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
         shell: bash
         env:
           COSIGN_KEY: ${{secrets.COSIGN_KEY}}
@@ -76,8 +76,8 @@ jobs:
           docker buildx imagetools inspect ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
           docker pull docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
           docker pull ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
-          cosign verify --insecure-ignore-tlog=true --key cosign.pub docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
-          cosign verify --insecure-ignore-tlog=true --key cosign.pub ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }} 
+          cosign verify --key cosign.pub docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
+          cosign verify --key cosign.pub ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }} 
 
       - uses: anchore/sbom-action@v0
         with:
