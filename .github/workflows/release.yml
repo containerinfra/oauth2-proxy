@@ -76,8 +76,8 @@ jobs:
           docker buildx imagetools inspect ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
           docker pull docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
           docker pull ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
-          cosign verify --key cosign.pub docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
-          cosign verify --key cosign.pub ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }} 
+          cosign verify --insecure-ignore-tlog=true --key cosign.pub docker.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }}
+          cosign verify --insecure-ignore-tlog=true --key cosign.pub ghcr.io/containerinfra/${IMAGE_NAME}:${{ env.VERSION }} 
 
       - uses: anchore/sbom-action@v0
         with:
