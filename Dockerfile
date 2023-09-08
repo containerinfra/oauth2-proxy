@@ -1,7 +1,7 @@
 FROM centos:8 as build
 
-ARG OAUTH2_PROXY_VERSION=v7.4.0
-ARG OAUTH2_PROXY_SHA256=318fc9dd2df3f29bc72c468e07492361332e264c528ab44ed024bcbbcbb55594
+ARG OAUTH2_PROXY_VERSION=v7.5.0
+ARG OAUTH2_PROXY_SHA256=c65c1037f36cc1a14ab891fa1c4ad407e7335f636386bc87e70a6ba7b5277d2f
 
 RUN curl -L -O https://github.com/oauth2-proxy/oauth2-proxy/releases/download/${OAUTH2_PROXY_VERSION}/oauth2-proxy-${OAUTH2_PROXY_VERSION}.linux-amd64.tar.gz \
     \
