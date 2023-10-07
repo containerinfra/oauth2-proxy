@@ -9,8 +9,8 @@ on:
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
-  VERSION: '7.5.0'
-  SHA256: 'c65c1037f36cc1a14ab891fa1c4ad407e7335f636386bc87e70a6ba7b5277d2f'
+  VERSION: '7.5.1'
+  SHA256: 'dec92a3c2418b3fe94361f407803933c12686f2dce9523a32d5a0fbc7f5f32b3'
 
 jobs:
   build-push:
