@@ -2,7 +2,7 @@
 
 Docker image build for [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/), using distroless as a base image instead of alpine.
 
-[![Docker hub](https://img.shields.io/docker/pulls/containerinfra/oauth2-proxy.svg)](https://hub.docker.com/r/containerinfra/oauth2-proxy/) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/containerinfra/oauth2-proxy/release)
+[![Docker hub](https://img.shields.io/docker/pulls/containerinfra/oauth2-proxy.svg)](https://hub.docker.com/r/containerinfra/oauth2-proxy/) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/containerinfra/oauth2-proxy/release.yml?branch=main)
 
 ## Table of Contents
 
