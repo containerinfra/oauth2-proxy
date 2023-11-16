@@ -10,10 +10,9 @@ on:
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
   VERSION: '7.5.1'
-  SHA256: 'dec92a3c2418b3fe94361f407803933c12686f2dce9523a32d5a0fbc7f5f32b3'
 
 jobs:
-  build-push:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,6 +20,8 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
       - name: Set up cosign
         uses: sigstore/cosign-installer@main
 
@@ -34,13 +35,12 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           tags: |
             ghcr.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
             docker.io/containerinfra/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
           build-args: |
             OAUTH2_PROXY_VERSION=v${{ env.VERSION }}
-            OAUTH2_PROXY_SHA256=${{ env.SHA256 }}
           labels: |
             org.opencontainers.image.title=${{ github.event.repository.name }}
             org.opencontainers.image.description=${{ github.event.repository.description }}
