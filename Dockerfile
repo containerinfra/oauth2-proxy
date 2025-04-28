@@ -1,9 +1,10 @@
-FROM centos:8 as build
+FROM alpine:3.21 AS build
 
 ARG OAUTH2_PROXY_VERSION=v7.9.0
 ARG TARGETARCH
 
-RUN curl -L -O https://github.com/oauth2-proxy/oauth2-proxy/releases/download/${OAUTH2_PROXY_VERSION}/oauth2-proxy-${OAUTH2_PROXY_VERSION}.linux-${TARGETARCH}.tar.gz \
+RUN apk add --no-cache curl tar \
+    && curl -L -O https://github.com/oauth2-proxy/oauth2-proxy/releases/download/${OAUTH2_PROXY_VERSION}/oauth2-proxy-${OAUTH2_PROXY_VERSION}.linux-${TARGETARCH}.tar.gz \
     \
     && tar -zxvf oauth2-proxy-${OAUTH2_PROXY_VERSION}.linux-${TARGETARCH}.tar.gz  \
     \
