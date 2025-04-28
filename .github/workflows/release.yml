@@ -8,7 +8,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
-  VERSION: '7.6.0'
+  VERSION: '7.7.0'
 
 jobs:
   release:
