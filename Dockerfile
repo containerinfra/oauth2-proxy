@@ -1,6 +1,6 @@
 FROM centos:8 as build
 
-ARG OAUTH2_PROXY_VERSION=v7.8.2
+ARG OAUTH2_PROXY_VERSION=v7.9.0
 ARG TARGETARCH
 
 RUN curl -L -O https://github.com/oauth2-proxy/oauth2-proxy/releases/download/${OAUTH2_PROXY_VERSION}/oauth2-proxy-${OAUTH2_PROXY_VERSION}.linux-${TARGETARCH}.tar.gz \
