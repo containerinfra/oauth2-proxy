@@ -1,4 +1,4 @@
-FROM alpine:3.22 AS build
+FROM alpine:3.23 AS build
 
 ARG OAUTH2_PROXY_VERSION=v7.9.0
 ARG TARGETARCH
